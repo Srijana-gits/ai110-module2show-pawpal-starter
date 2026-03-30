@@ -5,12 +5,23 @@
 **a. Initial design**
 
 - Briefly describe your initial UML design.
+The UML shows a pet care scheduling system where an Owner owns multiple Pets, manages a pool of Tasks, and a Scheduler processes those tasks into a timed daily schedule of ScheduledTasks.
+
 - What classes did you include, and what responsibilities did you assign to each?
+Pet — stores pet data (name, species, age, breed, notes)
+Owner — holds owner availability and preferences; maintains the pet list
+Task — defines a care task: category, duration, priority, recurrence, and completion status
+ScheduledTask — pairs a Task with a specific start/end time slot and placement reason
+Scheduler — builds the day's schedule by sorting tasks by priority, assigning time slots, detecting conflicts, and reporting skipped tasks
 
 **b. Design changes**
 
 - Did your design change during implementation?
+Yes
 - If yes, describe at least one change and why you made it.
+Added pet field to Task — tasks now know which pet they're for
+detect_conflict() — implemented; only blocks on exclusive tasks, parallel tasks overlap freely
+generate_schedule() — split into _filter_due_tasks() and _find_slot() helper methods so it's not one giant method
 
 ---
 
