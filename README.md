@@ -22,6 +22,18 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## Smarter Scheduling
+
+The scheduler goes beyond a simple task list — it actively detects and reports conflicts so nothing slips through:
+
+- **Conflict detection during placement** — before slotting an activity, `detect_conflict` checks whether a full-attention task for the same pet already occupies that time window. If there's a clash, the slot is pushed forward automatically.
+- **Post-schedule conflict check** — after the full schedule is built, `check_conflicts` scans every pair of entries for overlaps. It distinguishes two kinds:
+  - *Same-pet conflicts* — two tasks scheduled at the same time for the same pet.
+  - *Owner conflicts* — tasks for different pets that overlap, since the owner can't be in two places at once.
+- **Priority-first ordering** — urgent tasks are always placed before normal or flexible ones, so high-priority care (medications, vet visits) secures the best available slot first.
+- **Skipped task reporting** — if no slot fits within the owner's care window, the task is recorded in a `skipped` list with a reason, rather than silently dropped.
+- **Flexible filtering** — `filter_by_pet` and `filter_by_status` let the UI show a focused view (e.g. only Buddy's tasks, or only tasks still pending).
+
 ## Getting started
 
 ### Setup

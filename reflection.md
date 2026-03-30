@@ -30,12 +30,16 @@ generate_schedule() — split into _filter_due_tasks() and _find_slot() helper m
 **a. Constraints and priorities**
 
 - What constraints does your scheduler consider (for example: time, priority, preferences)?
+Preferred Time
 - How did you decide which constraints mattered most?
+Overlapping time intervals
 
 **b. Tradeoffs**
 
 - Describe one tradeoff your scheduler makes.
+Overalapping times
 - Why is that tradeoff reasonable for this scenario?
+Sometimes, owner might have to look for two pets during same interval
 
 ---
 
