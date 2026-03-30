@@ -22,6 +22,24 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## 📸 Demo
+
+<a href="demo.png" target="_blank"><img src='demo.png' title='PawPal App' width='' alt='PawPal App' class='center-block' /></a>
+
+---
+
+## Features
+
+- **Priority-based sorting** — urgent tasks are always placed before normal or flexible ones
+- **Preferred time scheduling** — tasks are placed at or after their preferred time; ties go to the earlier time
+- **Conflict warnings** — after scheduling, the app flags same-pet overlaps and owner double-bookings
+- **Daily & weekly recurrence** — marking a recurring task done creates the next occurrence automatically
+- **Mark task complete** — each scheduled entry has a "Mark done" button; completed tasks are struck through in the UI
+- **Care window enforcement** — no task is placed outside the owner's available hours
+- **Skipped task reporting** — tasks that don't fit the window are listed with a reason, not silently dropped
+
+---
+
 ## Smarter Scheduling
 
 The scheduler goes beyond a simple task list- it actively detects and reports conflicts so nothing slips through:

@@ -10,6 +10,10 @@ if "owner" not in st.session_state:
     st.session_state.owner = None
 if "activities" not in st.session_state:
     st.session_state.activities = []
+if "entries" not in st.session_state:
+    st.session_state.entries = []
+if "skipped" not in st.session_state:
+    st.session_state.skipped = []
 
 # --- Owner Setup ---
 st.subheader("Owner")
@@ -121,31 +125,48 @@ if st.button("Generate schedule"):
     else:
         scheduler = Scheduler(st.session_state.owner)
         scheduler.load_from_owner()
-        entries, skipped = scheduler.generate_schedule()
+        st.session_state.entries, st.session_state.skipped = scheduler.generate_schedule()
 
-        st.success(f"Scheduled {len(entries)} activity(s)")
+# --- Display schedule with Mark Done buttons ---
+if st.session_state.entries:
+    entries = st.session_state.entries
+    scheduler = Scheduler(st.session_state.owner)
+
+    st.success(f"Scheduled {len(entries)} activity(s)")
+
+    header = st.columns([1, 1, 2, 1, 1, 1, 1, 1])
+    for col, label in zip(header, ["Start", "End", "Activity", "Pet", "Type", "Priority", "Repeat", ""]):
+        col.markdown(f"**{label}**")
+
+    for i, e in enumerate(entries):
+        cols = st.columns([1, 1, 2, 1, 1, 1, 1, 1])
+        label = "~~" + e.activity.title + "~~" if e.done else e.activity.title
+        cols[0].write(e.start)
+        cols[1].write(e.end)
+        cols[2].markdown(label)
+        cols[3].write(e.activity.pet.name if e.activity.pet else "—")
+        cols[4].write(e.activity.care_type)
+        cols[5].write(e.activity.priority)
+        cols[6].write(e.activity.repeat)
+        if e.done:
+            cols[7].markdown("✅ Done")
+        else:
+            if cols[7].button("Mark done", key=f"done_{i}"):
+                e.done = True
+                next_activity = e.activity.mark_done()
+                if next_activity:
+                    st.session_state.activities.append(next_activity)
+                st.rerun()
+
+    conflicts = scheduler.check_conflicts(entries)
+    if conflicts:
+        st.warning("Scheduling conflicts detected:")
+        for w in conflicts:
+            st.markdown(f"- {w}")
+
+    if st.session_state.skipped:
+        st.warning(f"Skipped {len(st.session_state.skipped)} activity(s):")
         st.table([
-            {
-                "Start": e.start,
-                "End": e.end,
-                "Activity": e.activity.title,
-                "Pet": e.activity.pet.name if e.activity.pet else "—",
-                "Type": e.activity.care_type,
-                "Priority": e.activity.priority,
-                "Repeat": e.activity.repeat,
-            }
-            for e in entries
+            {"Activity": a.title, "Pet": a.pet.name if a.pet else "—", "Reason": reason}
+            for a, reason in st.session_state.skipped
         ])
-
-        conflicts = scheduler.check_conflicts(entries)
-        if conflicts:
-            st.warning("Scheduling conflicts detected:")
-            for w in conflicts:
-                st.markdown(f"- {w}")
-
-        if skipped:
-            st.warning(f"Skipped {len(skipped)} activity(s):")
-            st.table([
-                {"Activity": a.title, "Pet": a.pet.name if a.pet else "—", "Reason": reason}
-                for a, reason in skipped
-            ])
