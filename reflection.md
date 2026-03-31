@@ -48,12 +48,18 @@ Sometimes, owner might have to look for two pets during same interval
 **a. How you used AI**
 
 - How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
+I used AI tools during this project for brainstorming and testing.
 - What kinds of prompts or questions were most helpful?
+Instead of asking AI to do the whole thing, I think explaining what I was thinking and asking it to verify my logic / breaking it into smaller questions worked better.
 
 **b. Judgment and verification**
 
 - Describe one moment where you did not accept an AI suggestion as-is.
+It asked to me add features which were unnecessary.
+
 - How did you evaluate or verify what the AI suggested?
+I asked to generate tests to see if the logic is broken.
+I 
 
 ---
 
@@ -62,13 +68,17 @@ Sometimes, owner might have to look for two pets during same interval
 **a. What you tested**
 
 - What behaviors did you test?
+Sorting (urgent before normal), conflict detection (two tasks at the same time), and daily/weekly recurrence (marking done creates the next task).
+
 - Why were these tests important?
+These are the core algorithms, if any of them break silently, the schedule looks fine but gives the wrong output. Tests made sure the logic actually worked.
 
 **b. Confidence**
 
 - How confident are you that your scheduler works correctly?
+4
 - What edge cases would you test next if you had more time?
-
+Two urgent tasks at the exact same time.
 ---
 
 ## 5. Reflection
@@ -76,11 +86,14 @@ Sometimes, owner might have to look for two pets during same interval
 **a. What went well**
 
 - What part of this project are you most satisfied with?
+The input validation flow, you can't add a task without first saving an owner and adding a pet. 
 
 **b. What you would improve**
 
 - If you had another iteration, what would you improve or redesign?
+I'd add a way to edit or delete an activity after adding it — right now the table in the UI is read-only
 
 **c. Key takeaway**
 
 - What is one important thing you learned about designing systems or working with AI on this project?
+AI will confidently write things it hasn't verified. The most important habit I built was asking 'does this actually exist in the code?' before accepting any suggestion. The system only became reliable when I treated AI output as a first draft, not a final answer.
