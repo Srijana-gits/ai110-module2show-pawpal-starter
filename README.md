@@ -1,4 +1,4 @@
-# PawPal+ (Module 2 Project)
+# PawPal+ 
 
 PawPal+ is a Streamlit-powered pet care planning assistant that helps busy pet owners organize, prioritize, and schedule daily care tasks across multiple pets.
 
